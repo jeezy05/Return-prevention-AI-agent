@@ -1,0 +1,11 @@
+report_id,sku,product_name,issue_type,issue_severity,notes,inspector_name,inspection_date
+QC-9001,RSX-11,Running Shoes X1,Stitching Failure,High,"Loose seams found in 3/10 units sampled; risk of upper separation",Inspector_Gonzales,2025-11-12
+QC-9002,YMP-001,Yoga Mat Pro,Dimension Tolerance,High,"Thickness variance >5% in 5% of batch, affects size fit",Inspector_Ali,2025-11-11
+QC-9003,TG-07,Gym Tote GT2,Missing Parts,Medium,"Missing shoulder strap in 2% of sample; assembly oversight",Inspector_Sato,2025-11-10
+QC-9004,SS1-02,Smart Scale S1,Sensor Variance,High,"Readings deviate by +3-4 lbs across calibrations",Inspector_Bennett,2025-11-07
+QC-9005,WEP-22,Wireless Earbuds W2,Solder Joint,High,"Solder cold-joint on driver causing dropouts; likely factory line issue",Inspector_Cruz,2025-11-15
+QC-9006,GBD-04,Gym Bag Deluxe,Zipper Fault,Medium,"Slider teeth misaligned; fails under 7kg stress test",Inspector_Lee,2025-11-16
+QC-9007,HOD-H1,Thermal Hoodie H1,Color Fastness,Low,"Color fades in wash but functional integrity preserved",Inspector_Patel,2025-11-14
+QC-9008,XL-T7,XL T-Shirt T7,Size Grading Error,High,"XL pattern inconsistent; grading table not applied",Inspector_Reed,2025-11-09
+QC-9009,YSP-10,Yoga Strap Y,Loose Threads,Low,"Loose threads on seam edges; cosmetic only",Inspector_O'Neil,2025-11-11
+QC-9010,WB-01,Water Bottle Z,Cap Seal Failure,High,"Cap not sealing on 4% of sample; leakage possible",Inspector_Muller,2025-11-13

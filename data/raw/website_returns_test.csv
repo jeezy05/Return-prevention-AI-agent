@@ -1,0 +1,11 @@
+OrderNumber,Product,ReturnReason,CustomerNote,Date,CustomerID,Refund
+WEB1001,Yoga Mat Pro,Wrong Size,"Customer says size chart inconsistent; returns entry includes measurement (L->fits XS)",2025-11-12,CU-6001,25
+WEB1002,Water Bottle Z,Leak/Damage,"Cap cracked on first refill; liquid leakage",2025-11-13T09:17:00Z,CU-6002,10
+WEB1003,Running Shoes X1,Comfort/Design,"Arch support bad; pain after 10 min running; recommends redesign",2025-11-14,CU-6003,65
+WEB1004,Yoga Strap Y,Frayed Material,"Strap ends frayed after one wash; low quality finish",11/16/2025,CU-6004,8.99
+WEB1005,Wireless Earbuds W2,Not Working,"Pairing fails, customer tried reset; multiple units affected; emoji 😡",2025-11-15,CU-6005,49.99
+WEB1006,Thermal Hoodie H1,Wrong Color,"Ordered Blue, received Navy — customer photos show mismatch",2025-11-11,CU-6006,39.00
+WEB1007,Gym Bag Deluxe,GsmIssue,"Smell present (scented), label indicates synthetic material but allergic reaction reported",2025/11/10,CU-6007,18.50
+WEB1008,Smart Scale S1,Calibration Issue,"Multiple reports of mismatch vs pharmacy scale; likely sensor calibration",2025-11-17,CU-6008,22.00
+WEB1009,XL T-Shirt T7,Size Too Large,"Sizing inconsistent: XL fits larger than expected; returns spike in sizes XL-L",2025-11-09,CU-6009,12.00
+WEB1010,Running Shoes X1,Looseness/Wear,"Heel area detaches after repeated wear; wear pattern suggests adhesive failure",2025-11-18,CU-6010,65.00

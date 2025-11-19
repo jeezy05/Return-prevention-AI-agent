@@ -1,0 +1,11 @@
+chat_id,order_id,timestamp,agent,message
+CHAT-9001,AMZ1002,2025-11-13 12:10:23,Agent.Maya,"Customer: My Running Shoes X1 fell apart. I ran 3 miles and the sole started to separate. Photo sent. Agent: We're sorry; this looks like a manufacturing defect"
+CHAT-9002,AMZ1001,2025-11-14 09:05:00,Agent.Joe,"Customer: Yoga mat is too small. I ordered size L. Agent: Did you check the size chart? Customer: The chart is confusing — says 180cm = L but I measured 170cm and it still fits small"
+CHAT-9003,WEB1005,2025-11-15 18:00:00,Agent.Sam,"Customer: Earbuds won’t pair. Tried resetting. Agent: Please try pairing and send serial number. Customer: Serial 3321-XX — unit returns recommended"
+CHAT-9004,AMZ1005,2025-11-10 08:20:10,Agent.Li,"Customer: The yoga mat smells like chemicals. Agent: Did you let it air out? Customer: Smell caused nausea, returned immediately"
+CHAT-9005,AMZ1008,2025-11-07 15:40:00,Agent.Eve,"Customer: Scale shows weight +4lbs vs pharmacy. Customer measured several times; suspect calibration issue. Agent: We'll issue RMA"
+CHAT-9006,AMZ1003,2025-11-09 12:00:00,Agent.Raj,"Customer: Packaging was missing strap. Agent: Sorry — the unit was shipped incomplete. We will send replacement" 
+CHAT-9007,WEB1007,2025-11-12 10:15:00,Agent.Soft,"Customer: Smell is present and causes skin rash. Agent: Ask medical details; escalate to QC/Materials" 
+CHAT-9008,AMZ1010,2025-11-18 20:00:00,Agent.Kat,"Customer: Shoes small but ordered 10.5; Agent: We recommend checking size chart; multiple returns flagged for same SKU"
+CHAT-9009,WEB1009,2025-11-09 14:33:12,Agent.Neo,"Customer: XL fits like XXL — pattern error. Agent: Size gradation seems inconsistent; escalate to product team"
+CHAT-9010,AMZ1004,2025-11-10 09:00:01,Agent.Ryan,"Customer: Received wrong color. Agent: Confirmed wrong SKU shipped. Agent: Initiate shipping audit"

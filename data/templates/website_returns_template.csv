@@ -1,0 +1,4 @@
+product_id,product_name,return_reason,return_date,refund_amount,customer_feedback,order_id
+SKU001,Yoga Mat Pro,Material cracking,2024-11-15,45.00,Poor material quality,WEB001
+SKU002,Running Shoes X1,Wrong size,2024-11-14,75.00,Sizing chart incorrect,WEB002
+SKU003,Water Bottle,Lid broken,2024-11-13,22.00,Quality issue,WEB003

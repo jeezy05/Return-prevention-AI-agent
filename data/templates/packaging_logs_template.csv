@@ -1,0 +1,4 @@
+log_id,product_id,product_name,failure_type,description,severity,log_date,quantity_affected
+LOG001,SKU001,Yoga Mat Pro,Material cracking,Cracking in corner seams,HIGH,2024-11-15,15
+LOG002,SKU001,Yoga Mat Pro,Color fading,PVC coating fading with humidity,MEDIUM,2024-11-14,8
+LOG003,SKU003,Water Bottle,Seal failure,Rubber seal not sealing properly,HIGH,2024-11-13,5

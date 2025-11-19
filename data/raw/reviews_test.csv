@@ -1,0 +1,11 @@
+review_id,product_name,rating,review_text,review_date,verified
+R-2001,Yoga Mat Pro,2,"Great spacing but the size is inaccurate; rolled fine but too short for tall users.",2025-11-13,True
+R-2002,Running Shoes X1,1,"Terrible durability — sole separation after one week. Seller refused refund initially.",2025-11-15,False
+R-2003,Gym Bag Deluxe,3,"Nice bag but straps are thin and ripped after a few uses.",2025-11-12,True
+R-2004,Smart Scale S1,2,"Inaccurate readings; not reliable for tracking weight loss.",2025-11-07,True
+R-2005,Wireless Earbuds W2,1,"Pairing fails, low sound quality; awful customer service.",2025-11-15,False
+R-2006,Thermal Hoodie H1,4,"Warm and comfortable; mild color fade after wash.",11/16/2025,True
+R-2007,Running Shoes X1,2,"Poor fit; arch support lacks proper design. Size 8 = width of 9.",2025-11-14,True
+R-2008,Yoga Strap Y,3,"Material okay but edges fray after laundry cycles.",2025-11-11,True
+R-2009,XL T-Shirt T7,2,"Size is off (XL too large) and seams are uneven.",2025-11-09,False
+R-2010,Gym Bag Deluxe,1,"Zipped opening broke on first use; seams were unstitched.",2025-11-16,True

@@ -1,0 +1,11 @@
+order_id,product_name,sku,return_reason,customer_note,return_date,quantity,refund_amount
+AMZ1001,Yoga Mat Pro,YMP-001,Size Too Small,"Size chart misleading; item labeled as L but fits XS. Customer unhappy.",2025-11-12,1,25.00
+AMZ1002,Running Shoes X1,RSX-11,Defective - sole,"Sole separated after 2 runs — grade: urgent; photo attached",11/17/2025,1,65.00
+AMZ1003,Gym Bag Deluxe,GBD-04,Packaging Damage,"Box ripped, inner components exposed; tape missing",2025-11-15T03:40:00Z,1,18.50
+AMZ1004,Wireless Earbuds W2,WEB-22,Wrong Item,"Received earbuds for W1 model; not correct color (Black vs White)",2025-11-10,1,49.99
+AMZ1005,Yoga Mat Pro,YMP-001,Odor/Material,"Strong chemical smell — causes headaches (reported dizziness)",2025-11-09,2,50.00
+AMZ1006,Running Shoes X1,RSX-11,Torn/Durability,"Zipper on shoe bag tore on first use; stitching issue",2025/11/08,1,12.50
+AMZ1007,Cycling Cap C3,CC3-09,Not As Described,"Promo said ""100% cotton"" but it's polyester blend; allergic reactions",2025-11-14,1,7.99
+AMZ1008,Smart Scale S1,SS1-02,Calibration Issue,"Scale shows +3-5 lbs; inconsistent readings; returns on 2025-11-07",2025-11-07 14:30,1,22.00
+AMZ1009,Gym Tote GT2,GTT-2,Missing Parts,"Shoulder strap missing; ordered as complete kit",2025-11-16,1,9.99
+AMZ1010,Running Shoes X1,RSX-11,Size Too Small,"Customer ordered 10.5 but shoe fits like 9.5; size chart issue",2025-11-18,1,65.00

@@ -1,0 +1,4 @@
+ticket_id,product_id,product_name,chat_transcript,issue_description,resolution,created_date,status
+TKT001,SKU001,Yoga Mat Pro,"Customer: Mat cracking. Agent: We'll send replacement.",Material cracking,Replacement sent,2024-11-15,closed
+TKT002,SKU002,Running Shoes X1,"Customer: Shoes too small. Agent: Check sizing guide.",Wrong size,Refund issued,2024-11-14,closed
+TKT003,SKU003,Water Bottle,"Customer: Leaking water bottle. Agent: Quality check required.",Defective seal,Replacement sent,2024-11-13,closed
