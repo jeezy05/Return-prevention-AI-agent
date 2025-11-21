@@ -1,4 +1,3 @@
-"""Risk prediction module"""
 
 import pandas as pd
 import numpy as np
@@ -6,8 +5,7 @@ from src.utils import logger
 from src.config import RISK_CONFIG
 
 class RiskPredictor:
-    """Predict product return risk"""
-    
+  
     def __init__(self):
         self.high_threshold = RISK_CONFIG["high_threshold"]
         self.medium_threshold = RISK_CONFIG["medium_threshold"]
@@ -15,41 +13,36 @@ class RiskPredictor:
     
     def calculate_risk_score(self, df: pd.DataFrame, product_col: str, 
                             date_col: str = None, category_col: str = None) -> pd.DataFrame:
-        """Calculate risk score for each product"""
+   
         
         df_copy = df.copy()
         
-        # Calculate return rate
+       
         product_returns = df_copy.groupby(product_col).size()
         total_returns = len(df_copy)
         
         return_rates = (product_returns / total_returns * 100).round(2)
         
-        # Create results dataframe
         results = pd.DataFrame({
             'product': return_rates.index,
             'return_count': product_returns.values,
             'return_rate_percentage': return_rates.values
         }).reset_index(drop=True)
         
-        # Calculate risk score (0-100)
-        # Using return rate as primary factor
-        results['risk_score'] = results['return_rate_percentage'] * 2  # Scale to 0-100
+        results['risk_score'] = results['return_rate_percentage'] * 2  
         results['risk_score'] = results['risk_score'].clip(0, 100)
         
-        # Adjust based on frequency (more returns = higher risk)
         max_returns = results['return_count'].max()
         frequency_factor = (results['return_count'] / max_returns * 20)
         results['risk_score'] = (results['risk_score'] + frequency_factor).clip(0, 100)
         
-        # Classify risk level
+
         results['risk_level'] = results['risk_score'].apply(self._classify_risk)
         
         logger.info(f"Calculated risk scores for {len(results)} products")
         return results.sort_values('risk_score', ascending=False)
     
     def _classify_risk(self, score: float) -> str:
-        """Classify risk level based on score"""
         
         if score >= self.high_threshold:
             return "HIGH"
@@ -60,7 +53,6 @@ class RiskPredictor:
     
     def predict_returns_trend(self, df: pd.DataFrame, product_col: str, 
                              date_col: str, periods: int = 4) -> dict:
-        """Predict return trend for product"""
         
         predictions = {}
         
@@ -70,7 +62,7 @@ class RiskPredictor:
             if date_col in product_data.columns:
                 product_data[date_col] = pd.to_datetime(product_data[date_col], errors='coerce')
                 
-                # Simple trend: count returns per period
+                
                 product_data['period'] = product_data[date_col].dt.to_period('W')
                 period_counts = product_data.groupby('period').size()
                 
@@ -88,7 +80,6 @@ class RiskPredictor:
         return predictions
     
     def identify_at_risk_products(self, risk_df: pd.DataFrame, threshold: str = "HIGH") -> pd.DataFrame:
-        """Identify products at risk"""
         
         at_risk = risk_df[risk_df['risk_level'] == threshold]
         logger.info(f"Identified {len(at_risk)} {threshold} risk products")
@@ -96,11 +87,9 @@ class RiskPredictor:
         return at_risk
     
     def calculate_estimated_impact(self, risk_df: pd.DataFrame, avg_order_value: float = 100) -> pd.DataFrame:
-        """Calculate estimated financial impact"""
         
         df_copy = risk_df.copy()
         
-        # Estimate monthly returns based on current rate
         df_copy['estimated_monthly_returns'] = df_copy['return_count'] * 4  # Rough estimate
         df_copy['estimated_refund_amount'] = df_copy['estimated_monthly_returns'] * avg_order_value
         
