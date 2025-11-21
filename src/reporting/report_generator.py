@@ -1,4 +1,3 @@
-"""Report generation module"""
 
 import json
 from datetime import datetime
@@ -15,7 +14,6 @@ class ReportGenerator:
         self.report_dir.mkdir(parents=True, exist_ok=True)
     
     def generate_html_report(self, data: dict, filename: str = None) -> str:
-        """Generate HTML report"""
         
         if filename is None:
             filename = f"return_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
@@ -31,7 +29,6 @@ class ReportGenerator:
         return str(filepath)
     
     def generate_json_report(self, data: dict, filename: str = None) -> str:
-        """Generate JSON report"""
         
         if filename is None:
             filename = f"return_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
@@ -45,11 +42,9 @@ class ReportGenerator:
         return str(filepath)
     
     def _build_html(self, data: dict) -> str:
-        """Build HTML report content with Phase 1 & 2 enhancements"""
         
         timestamp = datetime.now().strftime("%B %d, %Y at %I:%M %p")
-        
-        # Prepare chart data for Phase 2
+
         chart_data = self._prepare_chart_data(data)
         
         html = f"""<!DOCTYPE html>
@@ -415,31 +410,20 @@ class ReportGenerator:
             <strong>Generated:</strong> {timestamp}
         </div>
 """
-        
-        # Summary metrics
+
         if 'summary' in data:
             html += self._build_summary_section(data['summary'])
         
-        # PHASE 2: Charts section
-        html += self._build_charts_section(chart_data)
         
-        # Top issues
+        html += self._build_charts_section(chart_data)
         if 'top_issues' in data:
             html += self._build_top_issues_section(data['top_issues'])
-        
-        # At-risk products
         if 'at_risk_products' in data:
             html += self._build_at_risk_section(data['at_risk_products'])
-        
-        # Root cause analysis
         if 'root_causes' in data:
             html += self._build_root_causes_section(data['root_causes'])
-        
-        # Recommendations
         if 'recommendations' in data:
             html += self._build_recommendations_section(data['recommendations'])
-        
-        # Action items
         if 'action_items' in data:
             html += self._build_action_items_section(data['action_items'])
         
@@ -458,7 +442,6 @@ class ReportGenerator:
         """Prepare data for Phase 2 charts"""
         chart_data = {}
         
-        # Top issues data for bar chart
         if 'top_issues' in data:
             issues = data['top_issues'][:8]
             chart_data['top_issues'] = {
@@ -467,7 +450,6 @@ class ReportGenerator:
                 'percentages': [issue.get('percentage', 0) for issue in issues]
             }
         
-        # Category distribution for pie chart
         if 'summary' in data and 'categories' in data.get('summary', {}):
             categories = data['summary']['categories']
             chart_data['categories'] = {
@@ -475,7 +457,6 @@ class ReportGenerator:
                 'data': list(categories.values())
             }
         
-        # Risk distribution
         if 'at_risk_products' in data:
             products = data['at_risk_products']
             risk_levels = {}
@@ -487,7 +468,6 @@ class ReportGenerator:
         return chart_data
     
     def _build_charts_section(self, chart_data: dict) -> str:
-        """PHASE 2: Build interactive charts section"""
         
         if not chart_data:
             return ""
@@ -497,8 +477,7 @@ class ReportGenerator:
             <h2>📈 Visual Analytics</h2>
             <div class="chart-row">
 """
-        
-        # Top Issues Bar Chart
+
         if 'top_issues' in chart_data:
             issues = chart_data['top_issues']
             labels_json = json.dumps(issues['labels'])
@@ -545,8 +524,6 @@ class ReportGenerator:
                 </script>
             </div>
 """
-        
-        # Risk Distribution Doughnut Chart
         if 'risk_distribution' in chart_data:
             risk_dist = chart_data['risk_distribution']
             risk_labels = []
@@ -612,15 +589,13 @@ class ReportGenerator:
         return html
     
     def _build_summary_section(self, summary: dict) -> str:
-        """PHASE 1: Build summary metrics with enhanced styling"""
         
         html = """
         <div class="section">
             <h2>📈 Key Metrics</h2>
             <div class="summary-box">
 """
-        
-        # Define metric order and styling
+
         metric_icons = {
             'total_returns': '📦',
             'unique_products': '🏷️',
@@ -648,7 +623,6 @@ class ReportGenerator:
         return html
     
     def _build_top_issues_section(self, issues: list) -> str:
-        """PHASE 1: Build top issues section with visual enhancements"""
         
         html = """
         <div class="section">
@@ -662,15 +636,14 @@ class ReportGenerator:
                 </tr>
 """
         
-        # Find max count for progress bar scaling
+
         max_count = max([issue.get('count', 0) for issue in issues[:10]], default=1)
         
         for issue in issues[:10]:
             count = issue.get('count', 0)
             percentage = issue.get('percentage', 0)
             category = issue.get('category', 'Other')
-            
-            # Determine badge color based on percentage
+        
             if percentage >= 40:
                 badge_class = 'badge-critical'
             elif percentage >= 25:
@@ -733,8 +706,6 @@ class ReportGenerator:
                 risk_badge = '<span class="badge badge-medium">🟡 MEDIUM</span>'
             else:
                 risk_badge = '<span class="badge badge-low">🟢 LOW</span>'
-            
-            # Create risk score gauge visualization
             bar_width = min(risk_score, 100)
             bar_color = '#d32f2f' if bar_width >= 70 else '#f57c00' if bar_width >= 50 else '#fbc02d' if bar_width >= 30 else '#388e3c'
             
@@ -766,7 +737,6 @@ class ReportGenerator:
         return html
     
     def _build_root_causes_section(self, causes: dict) -> str:
-        """PHASE 1: Build root causes section with visual cards"""
         
         html = """
         <div class="section">
@@ -774,7 +744,6 @@ class ReportGenerator:
 """
         
         for product, analysis in list(causes.items())[:10]:
-            # Use full text, not truncated
             safe_analysis = analysis.replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br>')
             html += f"""
             <div class="cause-card">
@@ -790,7 +759,6 @@ class ReportGenerator:
         return html
     
     def _build_recommendations_section(self, recommendations: dict) -> str:
-        """PHASE 1: Build recommendations section with action cards"""
         
         html = """
         <div class="section">
@@ -813,7 +781,6 @@ class ReportGenerator:
                     html += f'<div style="padding: 8px 12px; background: white; margin: 6px 0; border-radius: 4px; border-left: 3px solid #007bff; font-size: 13px;">✓ {action}</div>'
                 html += "</div>"
             
-            # Materials Actions
             if rec_data.get('materials'):
                 html += """
                 <div style="margin: 15px 0;">
@@ -822,8 +789,6 @@ class ReportGenerator:
                 for action in rec_data.get('materials', [])[:3]:
                     html += f'<div style="padding: 8px 12px; background: white; margin: 6px 0; border-radius: 4px; border-left: 3px solid #ff9800; font-size: 13px;">✓ {action}</div>'
                 html += "</div>"
-            
-            # Packaging Actions
             if rec_data.get('packaging'):
                 html += """
                 <div style="margin: 15px 0;">
@@ -850,8 +815,7 @@ class ReportGenerator:
         <div class="section">
             <h2>✅ Action Plan</h2>
 """
-        
-        # Group by priority
+    
         high_priority = [a for a in actions if a.get('priority') == 'HIGH']
         medium_priority = [a for a in actions if a.get('priority') == 'MEDIUM']
         low_priority = [a for a in actions if a.get('priority') == 'LOW']
@@ -893,7 +857,6 @@ class ReportGenerator:
         return html
     
     def save_report_data(self, data: dict, filename: str = None) -> None:
-        """Save report data to multiple formats"""
         
         if filename is None:
             base_filename = f"return_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
