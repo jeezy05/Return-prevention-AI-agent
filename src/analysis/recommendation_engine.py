@@ -1,4 +1,3 @@
-"""Recommendation generation engine"""
 
 import os
 import requests
@@ -6,16 +5,15 @@ from src.utils import logger
 from src.config import AI_CONFIG
 
 class RecommendationEngine:
-    """Generate actionable recommendations based on analysis"""
     
     def __init__(self):
         try:
             self.base_url = AI_CONFIG.get("ollama_base_url", "http://localhost:11434")
             self.model = AI_CONFIG.get("model", "mistral")
-            # Test connection
+            
             response = requests.get(f"{self.base_url}/api/tags", timeout=2)
             if response.status_code == 200:
-                # Check if model is available
+                
                 models = response.json().get("models", [])
                 model_names = [m.get("name", "").split(":")[0] for m in models]
                 
@@ -34,7 +32,6 @@ class RecommendationEngine:
     
     def generate_recommendations(self, root_causes: str, product_name: str, 
                                 return_rate: float, risk_score: float) -> dict:
-        """Generate recommendations from root cause analysis"""
         
         if not self.client:
             return self._fallback_recommendations(root_causes, product_name)
@@ -78,7 +75,6 @@ Format as a bulleted list. Be specific and measurable."""
             return self._fallback_recommendations(root_causes, product_name)
     
     def _parse_recommendations(self, text: str, product_name: str) -> dict:
-        """Parse recommendations into structured format"""
         
         recommendations = {
             'product': product_name,
@@ -111,7 +107,6 @@ Format as a bulleted list. Be specific and measurable."""
         return recommendations
     
     def _fallback_recommendations(self, root_causes: str, product_name: str) -> dict:
-        """Generate fallback recommendations without LLM"""
         
         recommendations = {
             'product': product_name,
@@ -125,11 +120,9 @@ Format as a bulleted list. Be specific and measurable."""
         return recommendations
     
     def generate_action_plan(self, recommendations: dict, priority_level: str = "HIGH") -> list:
-        """Generate prioritized action plan"""
         
         actions = []
         
-        # Assign priorities
         priority_mapping = {
             'design': 2,
             'materials': 2,
@@ -150,7 +143,6 @@ Format as a bulleted list. Be specific and measurable."""
                         'status': 'TO-DO'
                     })
         
-        # Sort by priority
         priority_order = {'HIGH': 0, 'MEDIUM': 1, 'LOW': 2}
         actions.sort(key=lambda x: priority_order[x['priority']])
         
@@ -158,7 +150,6 @@ Format as a bulleted list. Be specific and measurable."""
         return actions
     
     def batch_generate_recommendations(self, analysis_results: dict) -> dict:
-        """Generate recommendations for multiple products"""
         
         all_recommendations = {}
         
