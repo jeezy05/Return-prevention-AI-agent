@@ -1,16 +1,14 @@
-"""Data aggregation module"""
+
 
 import pandas as pd
 from src.utils import logger
 
 class Aggregator:
-    """Aggregate data from multiple sources"""
-    
+
     def __init__(self):
         pass
     
     def combine_dataframes(self, dataframes: list, common_columns: list = None) -> pd.DataFrame:
-        """Combine multiple dataframes"""
         
         if not dataframes:
             logger.warning("No dataframes to combine")
@@ -22,7 +20,6 @@ class Aggregator:
         return combined
     
     def aggregate_by_product(self, df: pd.DataFrame, product_col: str) -> pd.DataFrame:
-        """Aggregate data by product"""
         
         if product_col not in df.columns:
             logger.warning(f"Product column {product_col} not found")
@@ -30,11 +27,9 @@ class Aggregator:
         
         agg_dict = {}
         
-        # Add numeric columns
         for col in df.select_dtypes(include=['number']).columns:
             agg_dict[col] = 'sum'
         
-        # Count total returns
         agg_dict['product_name'] = 'first'
         
         aggregated = df.groupby(product_col, as_index=False).agg(agg_dict)
@@ -44,7 +39,6 @@ class Aggregator:
         return aggregated
     
     def aggregate_by_category(self, df: pd.DataFrame, category_col: str) -> pd.DataFrame:
-        """Aggregate data by category"""
         
         if category_col not in df.columns:
             logger.warning(f"Category column {category_col} not found")
@@ -58,7 +52,6 @@ class Aggregator:
         return aggregated
     
     def aggregate_all_sources(self, dataframes_dict: dict) -> dict:
-        """Aggregate all data sources with metadata"""
         
         summary = {}
         
@@ -75,7 +68,6 @@ class Aggregator:
                     }
                 }
                 
-                # Find date columns
                 date_cols = df.select_dtypes(include=['datetime64']).columns
                 if len(date_cols) > 0:
                     date_col = date_cols[0]
