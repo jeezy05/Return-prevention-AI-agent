@@ -1,4 +1,3 @@
-"""Base parser class for all data sources"""
 
 import pandas as pd
 from pathlib import Path
@@ -6,7 +5,6 @@ from typing import Optional
 from src.utils import logger
 
 class BaseParser:
-    """Base class for all parsers"""
     
     def __init__(self, file_path: str):
         """Initialize parser with file path"""
@@ -15,7 +13,6 @@ class BaseParser:
         self.source_name = self.__class__.__name__
     
     def load_data(self) -> pd.DataFrame:
-        """Load data from file"""
         try:
             if not self.file_path.exists():
                 logger.warning(f"File not found: {self.file_path}")
@@ -36,7 +33,6 @@ class BaseParser:
             return pd.DataFrame()
     
     def validate_columns(self, required_columns: list) -> bool:
-        """Validate that required columns exist"""
         if self.data is None:
             return False
         
@@ -47,11 +43,9 @@ class BaseParser:
         return True
     
     def parse(self) -> pd.DataFrame:
-        """Parse data - to be implemented by subclasses"""
         raise NotImplementedError("Subclasses must implement parse()")
     
     def save_processed(self, output_path: str) -> None:
-        """Save processed data to file"""
         try:
             Path(output_path).parent.mkdir(parents=True, exist_ok=True)
             self.data.to_csv(output_path, index=False)
