@@ -1,4 +1,3 @@
-"""Root cause analysis using Ollama LLM"""
 
 import pandas as pd
 import os
@@ -7,17 +6,16 @@ from src.utils import logger
 from src.config import AI_CONFIG
 
 class RootCauseAnalyzer:
-    """Analyze root causes using Ollama LLM (Free, self-hosted)"""
     
     def __init__(self):
         try:
             self.base_url = AI_CONFIG.get("ollama_base_url", "http://localhost:11434")
             self.model = AI_CONFIG.get("model", "mistral")
             self.temperature = AI_CONFIG.get("temperature", 0.7)
-            # Test connection
+            
             response = requests.get(f"{self.base_url}/api/tags", timeout=2)
             if response.status_code == 200:
-                # Check if model is available
+                
                 models = response.json().get("models", [])
                 model_names = [m.get("name", "").split(":")[0] for m in models]
                 
@@ -36,13 +34,11 @@ class RootCauseAnalyzer:
             self.client = None
     
     def analyze_reasons(self, reasons_data: dict, product_name: str = None) -> str:
-        """Analyze return reasons and generate root cause analysis"""
         
         if not self.client:
             return self._fallback_analysis(reasons_data, product_name)
         
         try:
-            # Format data for LLM
             formatted_data = self._format_for_llm(reasons_data, product_name)
             
             prompt = f"""Analyze these product return data and identify root causes:
