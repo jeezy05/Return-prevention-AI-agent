@@ -1,5 +1,0 @@
-review_id,product_id,product_name,rating,review_text,review_date,verified_purchase
-REV001,SKU001,Yoga Mat Pro,2,Material is cheap quality and starts cracking,2024-11-10,true
-REV002,SKU001,Yoga Mat Pro,1,Faded color after few uses,2024-11-09,true
-REV003,SKU002,Running Shoes X1,3,Comfortable but sizing was off,2024-11-08,true
-REV004,SKU003,Water Bottle,4,Good design but seal could be better,2024-11-07,true

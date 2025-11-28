@@ -1,4 +1,0 @@
-batch_id,product_id,product_name,defect_type,defect_count,severity,qc_date,total_inspected
-BATCH001,SKU001,Yoga Mat Pro,Material defect,5,HIGH,2024-11-15,100
-BATCH002,SKU002,Running Shoes X1,Size variance,3,MEDIUM,2024-11-14,100
-BATCH003,SKU003,Water Bottle,Seal defect,2,HIGH,2024-11-13,50

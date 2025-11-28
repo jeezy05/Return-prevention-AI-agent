@@ -1,6 +1,0 @@
-product_id,product_name,return_reason,return_date,refund_amount,customer_feedback,order_id
-SKU001,Yoga Mat Pro,Cracking after use,2024-11-15,49.99,Material quality concerns,ORD123001
-SKU001,Yoga Mat Pro,Faded color,2024-11-14,49.99,Color fading quickly,ORD123002
-SKU002,Running Shoes X1,Size too small,2024-11-13,79.99,Sizing inaccurate,ORD123003
-SKU002,Running Shoes X1,Broke after week,2024-11-12,79.99,Poor durability,ORD123004
-SKU003,Water Bottle,Leaking,2024-11-11,24.99,Seal defective,ORD123005
