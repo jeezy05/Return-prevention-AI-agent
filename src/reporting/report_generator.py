@@ -1,4 +1,3 @@
-
 import json
 from datetime import datetime
 from pathlib import Path
@@ -7,44 +6,31 @@ from src.utils import logger, format_currency, format_date
 from src.config import PROJECT_ROOT, REPORTS_DIR
 
 class ReportGenerator:
-    """Generate weekly return prevention reports"""
-    
     def __init__(self):
         self.report_dir = REPORTS_DIR
         self.report_dir.mkdir(parents=True, exist_ok=True)
     
     def generate_html_report(self, data: dict, filename: str = None) -> str:
-        
         if filename is None:
             filename = f"return_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.html"
-        
         filepath = self.report_dir / filename
-        
         html_content = self._build_html(data)
-        
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(html_content)
-        
         logger.info(f"Generated HTML report: {filepath}")
         return str(filepath)
     
     def generate_json_report(self, data: dict, filename: str = None) -> str:
-        
         if filename is None:
             filename = f"return_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        
         filepath = self.report_dir / filename
-        
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, default=str)
-        
         logger.info(f"Generated JSON report: {filepath}")
         return str(filepath)
     
     def _build_html(self, data: dict) -> str:
-        
         timestamp = datetime.now().strftime("%B %d, %Y at %I:%M %p")
-
         chart_data = self._prepare_chart_data(data)
         
         html = f"""<!DOCTYPE html>
@@ -291,7 +277,7 @@ class ReportGenerator:
         }}
         
         /* PHASE 1: Risk Level Styling */
-        .risk-critical {{ 
+        .risk-critical {{
             background: #ffebee;
             color: var(--critical);
             font-weight: 700;
@@ -299,7 +285,7 @@ class ReportGenerator:
             border-radius: 6px;
         }}
         
-        .risk-high {{ 
+        .risk-high {{
             background: #fff3e0;
             color: #f57c00;
             font-weight: 700;
@@ -307,7 +293,7 @@ class ReportGenerator:
             border-radius: 6px;
         }}
         
-        .risk-medium {{ 
+        .risk-medium {{
             background: #fffde7;
             color: #f9a825;
             font-weight: 700;
@@ -315,7 +301,7 @@ class ReportGenerator:
             border-radius: 6px;
         }}
         
-        .risk-low {{ 
+        .risk-low {{
             background: #e8f5e9;
             color: var(--success);
             font-weight: 700;
@@ -324,7 +310,7 @@ class ReportGenerator:
         }}
         
         /* PHASE 1: Action Items */
-        .action-item {{ 
+        .action-item {{
             background: linear-gradient(90deg, #fff8e1 0%, #fffde7 100%);
             padding: 16px;
             margin: 12px 0; 
@@ -354,7 +340,6 @@ class ReportGenerator:
             border-left-color: #ff9800;
         }}
         
-        /* PHASE 1: Root Cause Cards */
         .cause-card {{
             background: linear-gradient(135deg, var(--light) 0%, #e3f2fd 100%);
             padding: 20px;
@@ -376,8 +361,7 @@ class ReportGenerator:
             font-size: 14px;
         }}
         
-        /* Footer */
-        .footer {{ 
+        .footer {{
             text-align: center; 
             color: #999; 
             font-size: 12px; 
@@ -387,7 +371,6 @@ class ReportGenerator:
             font-weight: 500;
         }}
         
-        /* Responsive Design */
         @media (max-width: 1200px) {{
             .container {{ padding: 20px; }}
             .summary-box {{ grid-template-columns: repeat(2, 1fr); }}
@@ -410,11 +393,8 @@ class ReportGenerator:
             <strong>Generated:</strong> {timestamp}
         </div>
 """
-
         if 'summary' in data:
             html += self._build_summary_section(data['summary'])
-        
-        
         html += self._build_charts_section(chart_data)
         if 'top_issues' in data:
             html += self._build_top_issues_section(data['top_issues'])
@@ -435,13 +415,10 @@ class ReportGenerator:
 </body>
 </html>
 """
-        
         return html
     
     def _prepare_chart_data(self, data: dict) -> dict:
-        """Prepare data for Phase 2 charts"""
         chart_data = {}
-        
         if 'top_issues' in data:
             issues = data['top_issues'][:8]
             chart_data['top_issues'] = {
@@ -449,14 +426,12 @@ class ReportGenerator:
                 'data': [issue.get('count', 0) for issue in issues],
                 'percentages': [issue.get('percentage', 0) for issue in issues]
             }
-        
         if 'summary' in data and 'categories' in data.get('summary', {}):
             categories = data['summary']['categories']
             chart_data['categories'] = {
                 'labels': list(categories.keys()),
                 'data': list(categories.values())
             }
-        
         if 'at_risk_products' in data:
             products = data['at_risk_products']
             risk_levels = {}
@@ -464,11 +439,9 @@ class ReportGenerator:
                 level = product.get('risk_level', 'UNKNOWN')
                 risk_levels[level] = risk_levels.get(level, 0) + 1
             chart_data['risk_distribution'] = risk_levels
-        
         return chart_data
     
     def _build_charts_section(self, chart_data: dict) -> str:
-        
         if not chart_data:
             return ""
         
@@ -477,12 +450,10 @@ class ReportGenerator:
             <h2>📈 Visual Analytics</h2>
             <div class="chart-row">
 """
-
         if 'top_issues' in chart_data:
             issues = chart_data['top_issues']
             labels_json = json.dumps(issues['labels'])
             data_json = json.dumps(issues['data'])
-            
             html += f"""
                 <div class="chart-small">
                     <canvas id="topIssuesChart"></canvas>
@@ -529,25 +500,21 @@ class ReportGenerator:
             risk_labels = []
             risk_data = []
             risk_colors = []
-            
             risk_color_map = {
                 'CRITICAL': '#d32f2f',
                 'HIGH': '#f57c00',
                 'MEDIUM': '#fbc02d',
                 'LOW': '#388e3c'
             }
-            
             for level in ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW']:
                 if level in risk_dist:
                     risk_labels.append(level)
                     risk_data.append(risk_dist[level])
                     risk_colors.append(risk_color_map.get(level, '#ccc'))
-            
             if risk_data:
                 labels_json = json.dumps(risk_labels)
                 data_json = json.dumps(risk_data)
                 colors_json = json.dumps(risk_colors)
-                
                 html += f"""
                 <div class="chart-small">
                     <canvas id="riskDistributionChart"></canvas>
@@ -580,22 +547,18 @@ class ReportGenerator:
                 </script>
             </div>
 """
-        
         html += """
             </div>
         </div>
 """
-        
         return html
     
     def _build_summary_section(self, summary: dict) -> str:
-        
         html = """
         <div class="section">
             <h2>📈 Key Metrics</h2>
             <div class="summary-box">
 """
-
         metric_icons = {
             'total_returns': '📦',
             'unique_products': '🏷️',
@@ -603,10 +566,8 @@ class ReportGenerator:
             'high_risk_count': '🚨',
             'avg_risk_score': '⚡'
         }
-        
         for key, value in summary.items():
             icon = metric_icons.get(key, '📌')
-            
             html += f"""
                 <div class="metric">
                     <div style="font-size: 24px; margin-bottom: 5px;">{icon}</div>
@@ -614,16 +575,13 @@ class ReportGenerator:
                     <div class="label">{key.replace('_', ' ').title()}</div>
                 </div>
 """
-        
         html += """
             </div>
         </div>
 """
-        
         return html
     
     def _build_top_issues_section(self, issues: list) -> str:
-        
         html = """
         <div class="section">
             <h2>🚨 Top Return Reasons</h2>
@@ -635,15 +593,11 @@ class ReportGenerator:
                     <th style="width: 150px;">Category</th>
                 </tr>
 """
-        
-
         max_count = max([issue.get('count', 0) for issue in issues[:10]], default=1)
-        
         for issue in issues[:10]:
             count = issue.get('count', 0)
             percentage = issue.get('percentage', 0)
             category = issue.get('category', 'Other')
-        
             if percentage >= 40:
                 badge_class = 'badge-critical'
             elif percentage >= 25:
@@ -652,9 +606,7 @@ class ReportGenerator:
                 badge_class = 'badge-medium'
             else:
                 badge_class = 'badge-low'
-            
             progress_width = (count / max_count) * 100 if max_count > 0 else 0
-            
             html += f"""
                 <tr>
                     <td><strong>{issue.get('reason', 'Unknown')}</strong></td>
@@ -668,17 +620,13 @@ class ReportGenerator:
                     <td>{category}</td>
                 </tr>
 """
-        
         html += """
             </table>
         </div>
 """
-        
         return html
     
     def _build_at_risk_section(self, products: list) -> str:
-        """PHASE 1: Build at-risk products section with visual indicators"""
-        
         html = """
         <div class="section">
             <h2>⚠️ High-Risk Products</h2>
@@ -691,13 +639,10 @@ class ReportGenerator:
                     <th style="width: 120px;">Status</th>
                 </tr>
 """
-        
         for product in products[:10]:
             risk_level = product.get('risk_level', 'UNKNOWN')
             risk_score = product.get('risk_score', 0)
             return_rate = product.get('return_rate_percentage', 0)
-            
-            # Get risk level styling
             if risk_level == 'CRITICAL':
                 risk_badge = '<span class="badge badge-critical">🔴 CRITICAL</span>'
             elif risk_level == 'HIGH':
@@ -708,7 +653,6 @@ class ReportGenerator:
                 risk_badge = '<span class="badge badge-low">🟢 LOW</span>'
             bar_width = min(risk_score, 100)
             bar_color = '#d32f2f' if bar_width >= 70 else '#f57c00' if bar_width >= 50 else '#fbc02d' if bar_width >= 30 else '#388e3c'
-            
             html += f"""
                 <tr>
                     <td><strong>{product.get('product', 'Unknown')}</strong></td>
@@ -728,21 +672,17 @@ class ReportGenerator:
                     <td>{risk_badge}</td>
                 </tr>
 """
-        
         html += """
             </table>
         </div>
 """
-        
         return html
     
     def _build_root_causes_section(self, causes: dict) -> str:
-        
         html = """
         <div class="section">
             <h2>🔍 Root Cause Analysis</h2>
 """
-        
         for product, analysis in list(causes.items())[:10]:
             safe_analysis = analysis.replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br>')
             html += f"""
@@ -751,27 +691,21 @@ class ReportGenerator:
                 <p>{safe_analysis}</p>
             </div>
 """
-        
         html += """
         </div>
 """
-        
         return html
     
     def _build_recommendations_section(self, recommendations: dict) -> str:
-        
         html = """
         <div class="section">
             <h2>💡 Strategic Recommendations</h2>
 """
-        
         for product, rec_data in list(recommendations.items())[:5]:
             html += f"""
             <div style="margin-bottom: 30px; background: linear-gradient(135deg, #f0f4ff 0%, #e8f1ff 100%); padding: 20px; border-radius: 10px; border-left: 5px solid #007bff;">
                 <h3 style="color: #007bff; margin-top: 0;">{product}</h3>
 """
-            
-            # Design Actions
             if rec_data.get('design'):
                 html += """
                 <div style="margin: 15px 0;">
@@ -780,7 +714,6 @@ class ReportGenerator:
                 for action in rec_data.get('design', [])[:3]:
                     html += f'<div style="padding: 8px 12px; background: white; margin: 6px 0; border-radius: 4px; border-left: 3px solid #007bff; font-size: 13px;">✓ {action}</div>'
                 html += "</div>"
-            
             if rec_data.get('materials'):
                 html += """
                 <div style="margin: 15px 0;">
@@ -797,25 +730,19 @@ class ReportGenerator:
                 for action in rec_data.get('packaging', [])[:3]:
                     html += f'<div style="padding: 8px 12px; background: white; margin: 6px 0; border-radius: 4px; border-left: 3px solid #4caf50; font-size: 13px;">✓ {action}</div>'
                 html += "</div>"
-            
             html += """
             </div>
 """
-        
         html += """
         </div>
 """
-        
         return html
     
     def _build_action_items_section(self, actions: list) -> str:
-        """PHASE 1: Build action items with priority badges and styling"""
-        
         html = """
         <div class="section">
             <h2>✅ Action Plan</h2>
 """
-    
         high_priority = [a for a in actions if a.get('priority') == 'HIGH']
         medium_priority = [a for a in actions if a.get('priority') == 'MEDIUM']
         low_priority = [a for a in actions if a.get('priority') == 'LOW']
@@ -853,17 +780,13 @@ class ReportGenerator:
         html += """
         </div>
 """
-        
         return html
     
     def save_report_data(self, data: dict, filename: str = None) -> None:
-        
         if filename is None:
             base_filename = f"return_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         else:
             base_filename = filename.replace('.html', '').replace('.json', '')
-        
         self.generate_html_report(data, f"{base_filename}.html")
         self.generate_json_report(data, f"{base_filename}.json")
-        
         logger.info(f"Saved report data: {base_filename}")
