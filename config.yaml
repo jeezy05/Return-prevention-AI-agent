@@ -1,6 +1,4 @@
-# Return Prevention Agent Configuration
 
-# Data Sources
 data_sources:
   amazon_returns: "data/raw/amazon_returns.csv"
   website_returns: "data/raw/website_returns.csv"
@@ -9,31 +7,30 @@ data_sources:
   packaging_logs: "data/raw/packaging_logs.csv"
   qc_reports: "data/raw/qc_reports.csv"
 
-# Processing
 processing:
   normalize_text: true
   remove_duplicates: true
   min_word_length: 2
   max_text_length: 5000
 
-# AI Analysis (Ollama - Free, Self-Hosted)
+
 ai_analysis:
-  model: "mistral"  # Options: mistral, llama2, neural-chat, etc.
-  ollama_base_url: "http://localhost:11434"  # Ollama server URL
+  model: "mistral"  
+  ollama_base_url: "http://localhost:11434" 
   temperature: 0.7
   max_tokens: 2000
   api_timeout: 60
 
-# Risk Prediction
+
 risk_prediction:
   high_threshold: 70
   medium_threshold: 40
   low_threshold: 0
   lookback_days: 90
 
-# Reporting
+
 reporting:
-  report_format: "html"  # html or pdf
+  report_format: "html"  
   include_visualizations: true
   top_issues_count: 5
   top_products_count: 10
