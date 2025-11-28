@@ -1,78 +1,53 @@
-"""Pattern detection module"""
-
 import pandas as pd
 from collections import Counter
 from src.utils import logger, extract_keywords
 
 class PatternDetector:
-    """Detect patterns in return data"""
-    
     def __init__(self):
         pass
     
     def detect_product_issues(self, df: pd.DataFrame, product_col: str, reason_col: str) -> dict:
-        """Detect issues per product"""
-        
         patterns = {}
-        
         for product in df[product_col].unique():
             product_data = df[df[product_col] == product]
             reasons = product_data[reason_col].fillna('').tolist()
-            
-            # Count reason frequencies
             reason_counts = Counter(reasons)
-            
-            # Get top reasons
             top_reasons = reason_counts.most_common(5)
-            
             patterns[product] = {
                 'total_returns': len(product_data),
                 'top_reasons': top_reasons,
                 'return_rate': round((len(product_data) / len(df)) * 100, 2)
             }
-        
         logger.info(f"Detected patterns for {len(patterns)} products")
         return patterns
     
     def detect_temporal_patterns(self, df: pd.DataFrame, date_col: str, reason_col: str = None) -> dict:
-        """Detect temporal patterns"""
-        
         patterns = {'by_week': {}, 'by_month': {}}
-        
         if date_col not in df.columns:
             logger.warning(f"Date column {date_col} not found")
             return patterns
         
         df_copy = df.copy()
         df_copy[date_col] = pd.to_datetime(df_copy[date_col], errors='coerce')
-        
-        # Weekly pattern
         df_copy['week'] = df_copy[date_col].dt.isocalendar().week
         weekly_counts = df_copy.groupby('week').size()
         patterns['by_week'] = weekly_counts.to_dict()
-        
-        # Monthly pattern
         df_copy['month'] = df_copy[date_col].dt.to_period('M')
         monthly_counts = df_copy.groupby('month').size()
         patterns['by_month'] = {str(k): v for k, v in monthly_counts.to_dict().items()}
-        
-        logger.info(f"Detected temporal patterns")
+        logger.info("Detected temporal patterns")
         return patterns
     
     def detect_keyword_patterns(self, df: pd.DataFrame, text_col: str, top_n: int = 10) -> dict:
-        """Detect keyword patterns"""
-        
         if text_col not in df.columns:
             logger.warning(f"Text column {text_col} not found")
             return {}
         
         all_keywords = []
-        
         for text in df[text_col].fillna(''):
             keywords = extract_keywords(str(text))
             all_keywords.extend(keywords)
         
-        # Count keywords
         keyword_counts = Counter(all_keywords)
         top_keywords = keyword_counts.most_common(top_n)
         
@@ -86,8 +61,6 @@ class PatternDetector:
         return patterns
     
     def detect_severity_patterns(self, df: pd.DataFrame, severity_col: str) -> dict:
-        """Detect severity patterns"""
-        
         if severity_col not in df.columns:
             logger.warning(f"Severity column {severity_col} not found")
             return {}
